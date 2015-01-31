@@ -64,3 +64,30 @@ When our code makes it difficult to write unit tests, we are tempted not to writ
 Elements are *coupled* if a change in one forces a change in the other.
 
 An element's *cohesion* is a measure of whether its responsibilities form a meaningful unit. It refers to the degree to which the internals of an element belong together. Classes with "high" coherence are easier to maintain.
+
+<br />
+
+## Chapter 2: TDD with objects
+
+#### Tell, don't ask
+Tell-Don't-Ask is a principle that reminds us that rather than asking an object for data and then acting on that data ourselves, we should instead tell an object what to do. This encourages to move behavior into an object to go with the data. In other words, we should place data and behaviour related to that data in the same component.
+
+#### But sometimes ask
+The above principle should not be applied blindly in all cases. Sometimes it makes sense to ask:
+```java
+if (carriage.hasSeatsAvailableWithin(percentReservedBarrier)) ...
+```
+
+#### Mock objects
+In a unit test, the target object is the object we are testing.
+
+A mock object is a substitute for a neighbour of the target object. To create a mock object, we simply specify how we expect the target object to communicate with its mock neighbour. We call these specifications *expectations*. During the test, the mock objects assert that they have been called as expected.
+
+The neighbours don't need to exist when we are writing the unit test. We can actually use the opportunity of writing the test to think about and define the contracts of those neighbours, defining an interface for each of them. Our mock objects will implement these interfaces. As you develop the rest of the system, you will fill in real implementations for each of these interfaces.
+
+The essential structure of a test is:
+* create any required mock objects.
+* create any real objects, including the target object.
+* specify how you *expect* the mock objects to be called by the target object.
+* call the triggering method(s) on the target object.
+* assert that any resulting values are valid and that all the expected calls have been made.
