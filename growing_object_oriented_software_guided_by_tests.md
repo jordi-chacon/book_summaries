@@ -91,3 +91,42 @@ The essential structure of a test is:
 * specify how you *expect* the mock objects to be called by the target object.
 * call the triggering method(s) on the target object.
 * assert that any resulting values are valid and that all the expected calls have been made.
+
+<br />
+<br />
+
+# Part 2: The process of TDD
+
+## Chapter 4: Kick-starting the test-driven cycle
+
+#### Introduction
+Is it recommended to do TDD from the very first moment a project? Yes. Deploying and testing right from the start of a project forces the team to understand how their system fits into the world. Start with "build, deploy and test" on a nonexistent system sounds odd, but it's essential.
+
+The risks of leaving it for later are just too high. Many projects have been cancelled after many months of work because either they could not be reliably deployed or because new features required months of manual testing and the error rates were too high.
+
+Once we have our first test in place, subsequent tests will be much quicker to write.
+
+#### First, test a walking skeleton
+First, work out how to build, deploy and test a "walking skeleton", then use that infrastructure to write the acceptance tests for the first meaningful feature. After that, everything will be ready for the team to develop the rest of the system with tdd.
+
+A "walking skeleton" is an implementation of the thinnest possible slice of real functionality that we can automatically build, deploy and test end-to-end. It should include just enough of the automation, the major components, and communication mechanisms to allow us to start working on the first feature.
+
+When building the walking skeleton we don't need much detail, just an overall structure, a picture of what major system components will be needed and how they will communicate. We make the smallest number of decisions we can to kick-start the tdd cycle.
+
+On an ideal situation, the team releases regularly to a real production system so that stakeholders can respond to how well the system meets their needs. Since the team has a thorought set of regressions tests, the team can safely adapt to any changes from the client. No tests are perfect, but in practice a substantial test suite allows us to make major changes safely.
+
+#### Expose uncertainty early
+One of the points of approaching a new project with tdd from the very beginning is that you encourage chaos to happen early in the project instead of later in the project.
+
+It is fairly common in projects to leave the testing and the creation of the building and deployment pipeline for a later stage. This means that things move forward rather quickly at the beginning, but they are very likely to become stressful and chaotic when you:
+* want to put your components together and realize that they don't talk to each other as they should
+* start testing your system manually and discover many issues, which you fix causing other stuff to break
+* start writing acceptance tests and realize that it is hard as the system was not designed with testing in mind
+* when creating the deployment pipeline, you find out many unexpected obstacles
+
+Starting with tdd first, you take care of all of those uncertainties first, so that the rest of the trip is more stable and predictable. All the mundane but fragile tasks such as deployment and upgrades will have been automated and performed many times so that they "just work". This means that the project will start very slow, as you need to spend an uncertain amount of time:
+* thinking about all your components
+* designing them in a way that makes them easy to test and
+* building the automated pipeline that deploys the system into a production-like environment and runs all the acceptance tests
+
+Those are tricky activities which you want to tackle early in the project.
