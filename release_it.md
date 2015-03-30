@@ -72,3 +72,77 @@ the health of the servers in its pool.
 They can be used as SSL accelerators.
 
 The big drawback of these machines are their very high price.
+
+## Operations
+
+### System transparency
+Transparency refers to the qualities that allow operators, developers and
+business sponsors to gain understanding of the system's historical trends,
+present conditions, instantaneous state, and future projections.
+
+Debugging a transparent system is vastly easier, so transparent systems will
+mature faster than opaque ones.
+
+A system without transparency cannot survive long in production. If admins don't
+know what it is doing, it cannot be tunned and optimized. If developers do not
+know what works and does not work in production, they cannot increase its
+reliability or resilience over time. If business sponsors do not know whether they
+are making money on it, they will not fund future work.
+
+Without transparency, the system will drift into decay, functioning a bit worse
+with each release. Systems can mature well if, and only if, they have some degree
+of transparency.
+
+#### Historical trending
+It is somewhat possible to predict tomorrow's system behaviour by extrapolating
+yesterday's results. This applies to business metrics (customers, orders, conversion
+rate, revenue, ...) as well as system metrics (free storage, average CPU usage,
+network bandwidth, number of errors logged).
+
+Common questions:
+* How many orders did we take yesterday?
+* How does that compare to this day last year?
+* How much disk space did we consume during the first quarter?
+* The last time we had a spike in traffic, which system was the limiting factor?
+* How does the growth in customer traffic compare to the growth in CPU usage
+over the past three years?
+
+#### Predicting the future
+Use historical trending to predict the future, of course with some level of
+uncertainty.
+
+Looking at historical data you might be able to see what bottlenecks you will have
+in the future and you can start working towards eliminating them before they become
+a reality.
+
+#### Present status
+Parameters to observe:
+* Memory: min and max heap size
+* Garbage collection: type, frequency, memory reclaimed, size of request
+* Worker threads, for each thread pool: #threads, threads busy, threads busy more
+than five seconds, max-concurrent threads in use (high-water mark), low-water mark,
+number of times a thread was not available, request backlog.
+* Db connection pools, for each pool: #connections, connections in use, high-water
+mark, low-water mark, number of times a connection was not available, request backlog.
+* Traffic stats, for each request channel: total requests processed, average response
+time, requests aborted, requests per second, time of last request, accepting traffic
+or not.
+
+Parameters per application / service / system:
+* Business transaction, for each type: #processed, #aborted, conversion rate, value.
+* Integration points: current state, average response time from remote system, #failures
+* Circuit breakers: current state, #failed calls, time of last successful call
+
+### Designing for transparency
+Transparency arises from deliberate design and architecture.
+Adding transparency late in development can be done, but only with greater effort and
+cost than if it had been built in from the beginning.
+
+In designing for transparency, keep a close eye on coupling. It's relatively easy for
+the monitoring framework to intrude on the internals of the system. Your monitoring
+and reporting systems should be like an exoskeleton, built around your system, not
+woven into it.
+
+Decisions about what metrics should trigger alerts, where to set thresholds and the logic
+to state the overall system health status should all be left outside of the application
+itself.
